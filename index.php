@@ -33,6 +33,9 @@ $admin_img_dir = 'admin/';
             <div class="item-details">
               <div class="item-name"><?php echo htmlspecialchars($product['name']); ?></div>
             </div>
+            <div>
+              <a class="btn btn-outline" href="view_product.php?id=<?php echo (int)$product['id']; ?>">View</a>
+            </div>
           </div>
         <?php endforeach; ?>
       <?php else: ?>
@@ -58,6 +61,9 @@ $admin_img_dir = 'admin/';
             <div class="item-details">
               <div class="item-name">@<?php echo htmlspecialchars($customer['username']); ?></div>
             </div>
+            <div>
+              <a class="btn btn-outline" href="view_customer.php?id=<?php echo (int)$customer['id']; ?>">View</a>
+            </div>
           </div>
         <?php endforeach; ?>
       <?php else: ?>
@@ -82,6 +88,9 @@ $admin_img_dir = 'admin/';
                  onerror="this.src='https://placehold.co/60x60?text=Admin'">
             <div class="item-details">
               <div class="item-name">@<?php echo htmlspecialchars($admin['username']); ?></div>
+            </div>
+            <div>
+              <a class="btn btn-outline" href="view_admin.php?id=<?php echo (int)$admin['id']; ?>">View</a>
             </div>
           </div>
         <?php endforeach; ?>
