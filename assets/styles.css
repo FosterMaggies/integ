@@ -1,0 +1,71 @@
+/* Unique UI Design for Inventory System */
+:root{
+  --bg:#0b132b; --bg-2:#0f1b33; --panel:#151f39; --panel-2:#0f1b33;
+  --text:#e6ebff; --muted:#9aa7cc; --accent:#8a5cff; --accent-2:#ff6b6b;
+  --success:#2dcc70; --danger:#ff4d6d; --warning:#f4d35e;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+  line-height:1.6;
+  background:
+    radial-gradient(1000px 500px at -10% -10%, rgba(138,92,255,.12), transparent),
+    radial-gradient(800px 400px at 110% 0, rgba(255,107,107,.08), transparent),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg, rgba(21,31,57,.95), rgba(15,27,51,.95));backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.site-header h1{margin:0;font-size:20px;letter-spacing:.5px}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+nav a{color:var(--text);text-decoration:none;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:.2s}
+nav a:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
+
+/* Panels / Cards */
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel-2));padding:20px;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);margin:18px 0}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel-2));padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+.card h3{margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+
+/* Forms */
+label{display:block;margin:0 0 6px;color:var(--muted);font-size:13px}
+.input, select, .file{width:100%;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:#0e162b;color:var(--text);outline:none;transition:border .2s, box-shadow .2s}
+.input:focus, select:focus, .file:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(138,92,255,.2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Buttons */
+button,.btn{cursor:pointer;background:var(--accent);border:none;color:white;padding:10px 16px;border-radius:10px;box-shadow:0 6px 14px rgba(138,92,255,.3);transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--text)}
+.btn-danger{background:var(--danger);box-shadow:0 6px 14px rgba(255,77,109,.25)}
+
+/* Tables */
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.table thead tr{background:rgba(255,255,255,.03)}
+.table tbody tr:hover{background:rgba(255,255,255,.04)}
+
+/* Alerts */
+.alert{padding:12px 14px;border-radius:12px;display:flex;align-items:center;gap:10px;border:1px solid transparent;margin:8px 0}
+.alert.success{background:rgba(45,204,112,.12);border-color:rgba(45,204,112,.4)}
+.alert.error{background:rgba(255,77,109,.1);border-color:rgba(255,77,109,.4)}
+.alert.info{background:rgba(138,92,255,.12);border-color:rgba(138,92,255,.4)}
+
+/* Dashboard */
+.dashboard-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;padding:6px}
+.preview-column{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px}
+.preview-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.preview-title{font-weight:700;letter-spacing:.3px}
+.view-all{color:var(--muted);text-decoration:none}
+.view-all:hover{color:var(--text)}
+.item-list{display:grid;gap:12px}
+.item-card{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.item-image{width:60px;height:60px;object-fit:cover;border-radius:10px}
+.item-details .item-name{font-weight:600}
+
+/* Footer */
+.site-footer{margin-top:40px;border-top:1px solid rgba(255,255,255,.1);padding:16px 0;background:var(--panel)}
