@@ -6,6 +6,29 @@ define("DB_USER", "root");
 define("DB_PASS", "");
 define("DB_NAME", "inventorysys");
 
+require_once __DIR__ . '/base_model.php';
+
+class DbModel extends BaseModel {
+    public function __construct() {
+        $this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+        if (!$this->connection) {
+            die("Database connection failed: " . mysqli_connect_error());
+        }
+        mysqli_set_charset($this->connection, 'utf8mb4');
+    }
+
+    public function redirect_to($new_location) {
+        header("Location: " . $new_location);
+        exit();
+    }
+
+    public function confirm_query($result_set) {
+        if (!$result_set) {
+            die("Database query failed!");
+        }
+    }
+}
+
 class DBModel {
     private $connection;
     private $imageBaseMap = [
