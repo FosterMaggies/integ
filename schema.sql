@@ -7,8 +7,8 @@ USE inventorysys;
 -- Admins table
 CREATE TABLE IF NOT EXISTS admins (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(120) NOT NULL,
   email VARCHAR(160) NOT NULL UNIQUE,
+  username VARCHAR(120) NOT NULL UNIQUE,
   password VARCHAR(255) DEFAULT NULL,
   image VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS customers (
 ) ENGINE=InnoDB;
 
 -- Sample data (optional)
-INSERT INTO admins (name, email, password) VALUES
-('Admin One', 'admin1@example.com', '$2y$10$exampleexampleexampleexampleexampleexampleexampleexample');
+INSERT INTO admins (email, username, password) VALUES
+('admin1@example.com', 'admin1', '$2y$10$exampleexampleexampleexampleexampleexampleexampleexample');
 
 INSERT INTO products (name, sku, price, quantity) VALUES
 ('Sample Product', 'SKU-001', 9.99, 10);
