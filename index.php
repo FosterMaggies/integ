@@ -6,9 +6,9 @@ $customers = $conn->query("SELECT id, username, image FROM customers ORDER BY id
 $admins = $conn->query("SELECT id, username, image FROM admins ORDER BY id DESC LIMIT 3")->fetch_all(MYSQLI_ASSOC);
 
 $base_url = '';
-$product_img_dir = 'product_images/';
-$customer_img_dir = 'customer_images/';
-$admin_img_dir = 'admin_images/';
+$product_img_dir = 'product/';
+$customer_img_dir = 'customer/';
+$admin_img_dir = 'admin/';
 ?>
 
 <div class="dashboard-container">

@@ -51,7 +51,7 @@ class DBModel {
                 $file_ext = pathinfo($files[$file_field]['name'], PATHINFO_EXTENSION);
                 $base = $this->getImageBase($table);
                 $new_filename = "{$base}_{$insert_id}.{$file_ext}";
-                $target_dir = "{$base}_images/";
+                $target_dir = "{$base}/";
 
                 // Create directory if it doesn't exist
                 if (!file_exists($target_dir)) {
@@ -123,7 +123,7 @@ class DBModel {
                 $existing = $this->getById($table, $id);
                 $old_file = $existing && isset($existing['image']) ? $existing['image'] : null;
                 $base = $this->getImageBase($table);
-                $target_dir = "{$base}_images/";
+                $target_dir = "{$base}/";
                 if ($old_file && file_exists($target_dir . $old_file)) {
                     unlink($target_dir . $old_file);
                 }
@@ -157,7 +157,7 @@ class DBModel {
 
         if ($record && isset($record['image'])) {
             $base = $this->getImageBase($table);
-            $image_path = "{$base}_images/" . $record['image'];
+            $image_path = "{$base}/" . $record['image'];
             if ($record['image'] && file_exists($image_path)) {
                 unlink($image_path);
             }

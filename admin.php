@@ -79,7 +79,7 @@ $items = $db->getAll($table);
         <td><?php echo htmlspecialchars($row['password'] ?? ''); ?></td>
         <td>
           <?php if (!empty($row['image'])): ?>
-            <img src="admin_images/<?php echo htmlspecialchars($row['image']); ?>" alt="Admin Image" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+            <img src="admin/<?php echo htmlspecialchars($row['image']); ?>" alt="Admin Image" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
           <?php else: ?>
             <span class="badge">No image</span>
           <?php endif; ?>

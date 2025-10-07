@@ -75,7 +75,7 @@ $items = $db->getAll($table);
         <td><?php echo htmlspecialchars($row['password'] ?? ''); ?></td>
         <td>
           <?php if (!empty($row['image'])): ?>
-            <img src="customer_images/<?php echo htmlspecialchars($row['image']); ?>" alt="Customer Image" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+            <img src="customer/<?php echo htmlspecialchars($row['image']); ?>" alt="Customer Image" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
           <?php else: ?>
             <span class="badge">No image</span>
           <?php endif; ?>

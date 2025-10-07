@@ -113,7 +113,7 @@ $items = $db->getAll($table);
         <td><?php echo (int)$row['id']; ?></td>
         <td>
           <?php if (!empty($row['image'])): ?>
-            <img src="product_images/<?php echo htmlspecialchars($row['image']); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+            <img src="product/<?php echo htmlspecialchars($row['image']); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
           <?php else: ?>
             <span class="badge">No image</span>
           <?php endif; ?>
