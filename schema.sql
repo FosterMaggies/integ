@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS products (
 -- Customers table
 CREATE TABLE IF NOT EXISTS customers (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(160) NOT NULL,
   email VARCHAR(160) NOT NULL UNIQUE,
-  phone VARCHAR(40) DEFAULT NULL,
+  username VARCHAR(120) NOT NULL UNIQUE,
+  password VARCHAR(255) DEFAULT NULL,
   image VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
@@ -42,5 +42,5 @@ INSERT INTO admins (email, username, password) VALUES
 INSERT INTO products (name, sku, price, quantity) VALUES
 ('Sample Product', 'SKU-001', 9.99, 10);
 
-INSERT INTO customers (name, email, phone) VALUES
-('John Doe', 'john@example.com', '555-1111');
+INSERT INTO customers (email, username, password) VALUES
+('john@example.com', 'john', 'secret');

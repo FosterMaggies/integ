@@ -113,7 +113,7 @@ $items = $db->getAll($table);
         <td><?php echo (int)$row['id']; ?></td>
         <td>
           <?php if (!empty($row['image'])): ?>
-            <img src="products_images/<?php echo htmlspecialchars($row['image']); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+            <img src="product_images/<?php echo htmlspecialchars($row['image']); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
           <?php else: ?>
             <span class="badge">No image</span>
           <?php endif; ?>
@@ -123,8 +123,8 @@ $items = $db->getAll($table);
         <td><?php echo number_format((float)($row['price'] ?? 0), 2); ?></td>
         <td><?php echo (int)($row['quantity'] ?? 0); ?></td>
         <td>
-          <a class="btn btn-outline" href="product.php?edit=<?php echo (int)$row['id']; ?>">Edit</a>
-          <a class="btn btn-danger" href="product.php?delete=<?php echo (int)$row['id']; ?>" onclick="return confirm('Delete this product?')">Delete</a>
+          <a class="btn btn-outline" href="edit_product.php?id=<?php echo (int)$row['id']; ?>">Edit</a>
+          <a class="btn btn-danger" href="delete_product.php?id=<?php echo (int)$row['id']; ?>" onclick="return confirm('Delete this product?')">Delete</a>
         </td>
       </tr>
       <?php endforeach; ?>

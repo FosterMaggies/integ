@@ -8,6 +8,11 @@ define("DB_NAME", "inventorysys");
 
 class DBModel {
     private $connection;
+    private $imageBaseMap = [
+        'admins' => 'admin',
+        'products' => 'product',
+        'customers' => 'customer',
+    ];
 
     public function __construct() {
         $this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
@@ -44,8 +49,9 @@ class DBModel {
             $file_field = key($files); // Get the first file field name
             if ($file_field && !empty($files[$file_field]['name'])) {
                 $file_ext = pathinfo($files[$file_field]['name'], PATHINFO_EXTENSION);
-                $new_filename = "{$table}_{$insert_id}.{$file_ext}";
-                $target_dir = "{$table}_images/";
+                $base = $this->getImageBase($table);
+                $new_filename = "{$base}_{$insert_id}.{$file_ext}";
+                $target_dir = "{$base}_images/";
 
                 // Create directory if it doesn't exist
                 if (!file_exists($target_dir)) {
@@ -116,7 +122,8 @@ class DBModel {
                 // First delete old file if exists
                 $existing = $this->getById($table, $id);
                 $old_file = $existing && isset($existing['image']) ? $existing['image'] : null;
-                $target_dir = "{$table}_images/";
+                $base = $this->getImageBase($table);
+                $target_dir = "{$base}_images/";
                 if ($old_file && file_exists($target_dir . $old_file)) {
                     unlink($target_dir . $old_file);
                 }
@@ -127,7 +134,7 @@ class DBModel {
                 }
 
                 $file_ext = pathinfo($files[$file_field]['name'], PATHINFO_EXTENSION);
-                $new_filename = "{$table}_{$id}.{$file_ext}";
+                $new_filename = "{$base}_{$id}.{$file_ext}";
                 $target_path = $target_dir . $new_filename;
 
                 if (move_uploaded_file($files[$file_field]['tmp_name'], $target_path)) {
@@ -149,7 +156,8 @@ class DBModel {
         $record = $this->getById($table, $id);
 
         if ($record && isset($record['image'])) {
-            $image_path = "{$table}_images/" . $record['image'];
+            $base = $this->getImageBase($table);
+            $image_path = "{$base}_images/" . $record['image'];
             if ($record['image'] && file_exists($image_path)) {
                 unlink($image_path);
             }
@@ -189,6 +197,11 @@ class DBModel {
         if ($this->connection) {
             mysqli_close($this->connection);
         }
+    }
+
+    private function getImageBase($table) {
+        $lower = strtolower($table);
+        return $this->imageBaseMap[$lower] ?? $lower;
     }
 }
 

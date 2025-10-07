@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/db_conn.php';
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,11 @@ require_once __DIR__ . '/db_conn.php';
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+  <?php if (isset($_SESSION['notification'])): ?>
+    <script>
+      alert(<?php echo json_encode($_SESSION['notification']); ?>);
+    </script>
+    <?php unset($_SESSION['notification']); endif; ?>
   <header class="site-header">
     <div class="container">
       <h1>Inventory System</h1>

@@ -1,103 +1,88 @@
 <?php include __DIR__ . '/header.php'; ?>
 <?php
-// Handle create/update/delete actions for customers
-$errors = [];
-$success = null;
 $table = 'customers';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
-    $phone = trim($_POST['phone'] ?? '');
-    $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    if ($name === '' || $email === '') {
-        $errors[] = 'Name and Email are required.';
+    if ($email === '' || $username === '') {
+        $_SESSION['notification'] = 'Email and Username are required.';
+        header('Location: customer.php');
+        exit;
     }
 
-    if (!$errors) {
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'phone' => $phone,
-        ];
-        if ($id) {
-            $db->update($table, $id, $data);
-            $success = 'Customer updated.';
-        } else {
-            $db->save($table, $data);
-            $success = 'Customer created.';
-        }
-    }
-}
-
-if (isset($_GET['delete'])) {
-    $deleteId = (int) $_GET['delete'];
-    $db->delete($table, $deleteId);
-    $success = 'Customer deleted.';
-}
-
-$editItem = null;
-if (isset($_GET['edit'])) {
-    $editId = (int) $_GET['edit'];
-    $editItem = $db->getById($table, $editId);
+    $data = [
+        'email' => $email,
+        'username' => $username,
+        'password' => $password,
+    ];
+    $db->save($table, $data, isset($_FILES['image']) ? ['image' => $_FILES['image']] : null);
+    $_SESSION['notification'] = 'Customer added successfully!';
+    header('Location: customer.php');
+    exit;
 }
 
 $items = $db->getAll($table);
 ?>
 <div class="panel">
-  <h2>Customers</h2>
-  <?php if ($success): ?><div class="alert"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
-  <?php if ($errors): ?><div class="alert error"><?php echo implode('<br>', array_map('htmlspecialchars', $errors)); ?></div><?php endif; ?>
-  <form method="post">
-    <input type="hidden" name="id" value="<?php echo $editItem['id'] ?? ''; ?>">
+  <h2>Customer Information</h2>
+  <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
     <div class="row">
       <div>
-        <label>Name</label>
-        <input class="input" type="text" name="name" value="<?php echo htmlspecialchars($editItem['name'] ?? ''); ?>" required>
+        <label for="email">Email:</label>
+        <input class="input" type="email" id="email" name="email">
       </div>
       <div>
-        <label>Email</label>
-        <input class="input" type="email" name="email" value="<?php echo htmlspecialchars($editItem['email'] ?? ''); ?>" required>
+        <label for="username">Username:</label>
+        <input class="input" type="text" id="username" name="username">
       </div>
     </div>
     <div class="row">
       <div>
-        <label>Phone</label>
-        <input class="input" type="text" name="phone" value="<?php echo htmlspecialchars($editItem['phone'] ?? ''); ?>">
+        <label for="password">Password:</label>
+        <input class="input" type="password" id="password" name="password">
       </div>
-      <div style="align-self:end;text-align:right">
-        <div class="actions">
-          <a class="btn btn-outline" href="customer.php">Cancel</a>
-          <button type="submit" class="btn"><?php echo $editItem ? 'Update' : 'Create'; ?></button>
-        </div>
+      <div>
+        <label for="image">Image:</label>
+        <input class="file" type="file" id="image" name="image">
       </div>
+    </div>
+    <div class="actions" style="margin-top:12px">
+      <button type="submit" class="btn">Submit</button>
     </div>
   </form>
 </div>
 
 <div class="panel">
-  <h3>Customer List</h3>
+  <h3>Customer Records</h3>
   <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
         <th>Email</th>
-        <th>Phone</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Image</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <?php foreach ($items as $row): ?>
       <tr>
-        <td><?php echo (int)$row['id']; ?></td>
-        <td><?php echo htmlspecialchars($row['name'] ?? ''); ?></td>
         <td><?php echo htmlspecialchars($row['email'] ?? ''); ?></td>
-        <td><?php echo htmlspecialchars($row['phone'] ?? ''); ?></td>
+        <td><?php echo htmlspecialchars($row['username'] ?? ''); ?></td>
+        <td><?php echo htmlspecialchars($row['password'] ?? ''); ?></td>
         <td>
-          <a class="btn btn-outline" href="customer.php?edit=<?php echo (int)$row['id']; ?>">Edit</a>
-          <a class="btn btn-danger" href="customer.php?delete=<?php echo (int)$row['id']; ?>" onclick="return confirm('Delete this customer?')">Delete</a>
+          <?php if (!empty($row['image'])): ?>
+            <img src="customer_images/<?php echo htmlspecialchars($row['image']); ?>" alt="Customer Image" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+          <?php else: ?>
+            <span class="badge">No image</span>
+          <?php endif; ?>
+        </td>
+        <td>
+          <a href="edit_customer.php?id=<?php echo (int)$row['id']; ?>">Edit</a> |
+          <a href="delete_customer.php?id=<?php echo (int)$row['id']; ?>" onclick="return confirm('Delete this customer?')">Delete</a>
         </td>
       </tr>
       <?php endforeach; ?>
