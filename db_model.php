@@ -34,6 +34,50 @@ class DbModel extends BaseModel {
         }
     }
 
+    // Generic display_all compatible with controller usage
+    // $fields is an associative array mapping column => label prefix (optional)
+    public function display_all($query, $fields, $returnPage) {
+        $rows = $this->query($query);
+        if (!$rows || count($rows) === 0) {
+            echo '<p class="empty-message">No records found.</p>';
+            return;
+        }
+        foreach ($rows as $row) {
+            $id = (int)($row['id'] ?? 0);
+            $title = '';
+            if (isset($fields['title']) && isset($row[$fields['title']])) {
+                $title = $row[$fields['title']];
+            } elseif (isset($row['name'])) {
+                $title = $row['name'];
+            } elseif (isset($row['username'])) {
+                $title = '@' . $row['username'];
+            }
+
+            $entity = $fields['entity'] ?? null;
+            $image = $row[$fields['image'] ?? 'image'] ?? null;
+            $imgSrc = $image ? (($entity ? $entity.'/' : '') . $image) : 'https://placehold.co/77x77?text=No+Image';
+            $price = isset($fields['price']) && isset($row[$fields['price']]) ? number_format((float)$row[$fields['price']], 2) : null;
+            $date  = isset($fields['date']) && isset($row[$fields['date']]) ? date('M d, Y', strtotime($row[$fields['date']])) : null;
+            $href  = $returnPage ? ($returnPage . '?id=' . $id) : '#';
+
+            echo '<table width="100%" border="0" cellspacing="0" cellpadding="6">'
+               . '<tr>'
+               . '<td width="17%" valign="top">'
+               . '<a href="'. htmlspecialchars($href) .'">'
+               . '<img style="border:#ccc 1px solid;" src="'. htmlspecialchars($imgSrc) .'" alt="'. htmlspecialchars($title) .'" width="77" height="77" />'
+               . '</a>'
+               . '</td>'
+               . '<td width="83%" valign="top">'
+               . htmlspecialchars($title)
+               . ($price !== null ? ('<br />$' . htmlspecialchars($price)) : '')
+               . ($date ? ('<br />Added: ' . htmlspecialchars($date)) : '')
+               . '<br /><a href="'. htmlspecialchars($href) .'">View Details</a>'
+               . '</td>'
+               . '</tr>'
+               . '</table>';
+        }
+    }
+
     /**
      * Generic save function for admin, customer, and product
      */
