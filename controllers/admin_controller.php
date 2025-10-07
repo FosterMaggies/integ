@@ -37,3 +37,8 @@ function display_admins(){
   global $db;
   $db->display_all($sql, $fields, 'view_admin.php');
 }
+
+// Back-compat alias matching sample name
+function display_admin(){
+  display_admins();
+}
