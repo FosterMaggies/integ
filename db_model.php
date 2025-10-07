@@ -9,9 +9,15 @@ define("DB_NAME", "inventorysys");
 require_once __DIR__ . '/base_model.php';
 
 class DbModel extends BaseModel {
+    private $imageBaseMap = [
+        'admins' => 'admin',
+        'products' => 'product',
+        'customers' => 'customer',
+    ];
+
     public function __construct() {
         $this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-        if (!$this->connection) {
+        if (mysqli_connect_errno()) {
             die("Database connection failed: " . mysqli_connect_error());
         }
         mysqli_set_charset($this->connection, 'utf8mb4');
@@ -26,23 +32,6 @@ class DbModel extends BaseModel {
         if (!$result_set) {
             die("Database query failed!");
         }
-    }
-}
-
-class DBModel {
-    private $connection;
-    private $imageBaseMap = [
-        'admins' => 'admin',
-        'products' => 'product',
-        'customers' => 'customer',
-    ];
-
-    public function __construct() {
-        $this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-        if (mysqli_connect_errno()) {
-            die("Database connection failed: " . mysqli_connect_error());
-        }
-        mysqli_set_charset($this->connection, 'utf8mb4');
     }
 
     /**
@@ -229,4 +218,4 @@ class DBModel {
 }
 
 // Instantiate the DBModel for global use
-$db = new DBModel();
+$db = new DbModel();
