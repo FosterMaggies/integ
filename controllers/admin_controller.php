@@ -5,8 +5,8 @@ require_once __DIR__ . '/../db_model.php';
 if (isset($_GET['deleteid'])) {
     $id = (int)$_GET['deleteid'];
     echo 'Do you really want to delete admin with ID of ' . $id . '? '
-       . '<a href="admin_list.php?yesdelete=' . $id . '">Yes</a> | '
-       . '<a href="admin_list.php">No</a>';
+       . '<a href="admin.php?yesdelete=' . $id . '">Yes</a> | '
+       . '<a href="admin.php">No</a>';
     exit();
 }
 
@@ -14,7 +14,7 @@ if (isset($_GET['deleteid'])) {
 if (isset($_GET['yesdelete'])) {
     $id_to_delete = (int)$_GET['yesdelete'];
     $db->delete('admins', $id_to_delete);
-    $db->redirect_to('admin_list.php');
+    $db->redirect_to('admin.php');
 }
 
 // Create new admin
@@ -28,7 +28,7 @@ if (isset($_POST['user_name'])){
     'password' => $user_password,
   ];
   $db->save('admins', $data, null);
-  $db->redirect_to('admin_list.php');
+  $db->redirect_to('admin.php');
 }
 
 function display_admins(){
